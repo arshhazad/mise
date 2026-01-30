@@ -1,16 +1,18 @@
-# mise_app
+# Mise - Premium Chef Meal Subscription
 
-A new Flutter project.
+Premium healthy meals delivered to your doorstep.
 
-## Getting Started
+## Live Demo
+🚀 **[https://mise-in.web.app](https://mise-in.web.app)**
 
-This project is a starting point for a Flutter application.
+## Features
+- **Onboarding Flow**: Guided carousel and phone-based authentication.
+- **Dynamic Address Tagging**: Add multiple delivery locations with custom tags (Home, Office, Gym, etc.).
+- **Smart Scheduling**: Intelligent menu display based on 3 PM daily cutoff.
+- **Premium Dashboard**: Real-time consumption tracking and meal discovery.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Local Development
+1. Install Flutter.
+2. Clone this repo.
+3. Run `flutter pub get`.
+4. Run `flutter run -d chrome`.
