@@ -84,7 +84,8 @@ CREATE TABLE public.orders (
     daily_menu_id UUID REFERENCES public.daily_menus(id) NOT NULL,
     type TEXT CHECK (type IN ('base', 'swap', 'add_on')) NOT NULL,
     status TEXT CHECK (status IN ('pending', 'delivered', 'cancelled')) DEFAULT 'pending' NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+    UNIQUE(user_id, daily_menu_id)
 );
 
 CREATE TABLE public.add_ons (
@@ -94,7 +95,8 @@ CREATE TABLE public.add_ons (
     name TEXT,
     price DECIMAL(10,2) DEFAULT 120.00,
     payment_status TEXT DEFAULT 'pending',
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+    UNIQUE(user_id, daily_menu_id, name)
 );
 
 CREATE TABLE public.payments (

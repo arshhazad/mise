@@ -22,7 +22,12 @@ class MenuProvider extends ChangeNotifier {
 
   UserOrder? getOrderForMenu(String menuId) {
     try {
-      return _userOrders.firstWhere((o) => o.dailyMenuId == menuId);
+      // Prioritize swap over base
+      final orders = _userOrders.where((o) => o.dailyMenuId == menuId).toList();
+      if (orders.any((o) => o.type == 'swap')) {
+        return orders.firstWhere((o) => o.type == 'swap');
+      }
+      return orders.firstWhere((o) => o.dailyMenuId == menuId);
     } catch (e) {
       return null;
     }
@@ -138,7 +143,7 @@ class MenuProvider extends ChangeNotifier {
       'daily_menu_id': dailyMenuId,
       'type': 'swap',
       'status': 'pending',
-    });
+    }, onConflict: 'user_id,daily_menu_id');
 
     await _supabase.from('payments').insert({
       'user_id': userId,
@@ -151,12 +156,12 @@ class MenuProvider extends ChangeNotifier {
   }
 
   Future<void> addExtra(String userId, String dailyMenuId, String name, double price) async {
-    await _supabase.from('add_ons').insert({
+    await _supabase.from('add_ons').upsert({
       'user_id': userId,
       'daily_menu_id': dailyMenuId,
       'name': name,
       'price': 120.00,
-    });
+    }, onConflict: 'user_id,daily_menu_id,name');
 
     await fetchMenus(userId);
   }
@@ -174,6 +179,15 @@ class MenuProvider extends ChangeNotifier {
     await _supabase.from('subscriptions').update({
       'status': 'paused',
       'end_date': newEnd.toIso8601String().split('T')[0],
+    }).eq('id', subscriptionId);
+    
+    // Refresh menus/user specifics to sync status
+    notifyListeners();
+  }
+
+  Future<void> resumeSubscription(String subscriptionId) async {
+    await _supabase.from('subscriptions').update({
+      'status': 'active',
     }).eq('id', subscriptionId);
     
     notifyListeners();

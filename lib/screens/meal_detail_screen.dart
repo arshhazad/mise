@@ -62,13 +62,20 @@ class MealDetailScreen extends StatelessWidget {
                   const Text("Ingredients", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                   const SizedBox(height: 16),
                   if (meal.ingredients != null && meal.ingredients!.isNotEmpty)
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: meal.ingredients!.map((ing) => _buildIngredientChip(ing)).toList(),
+                    Column(
+                      children: meal.ingredients!.map((ing) => Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("• ", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppTheme.primaryColor)),
+                            Expanded(child: Text(ing, style: TextStyle(color: Colors.grey[700], fontSize: 16))),
+                          ],
+                        ),
+                      )).toList(),
                     )
                   else
-                    const Text("Fresh vegetables, herbs, and spices.", style: TextStyle(color: Colors.grey)),
+                    const Text("• Fresh vegetables, herbs, and spices.", style: TextStyle(color: Colors.grey, fontSize: 16)),
                   const SizedBox(height: 40),
                 ],
               ),
