@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../services/auth_provider.dart';
 import '../theme/app_theme.dart';
 import 'profile_setup_screen.dart';
+import 'dashboard_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -107,10 +108,18 @@ class _LoginScreenState extends State<LoginScreen> {
       await auth.devBypassLogin(_phoneController.text);
       
       if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const ProfileSetupScreen()),
-        );
+        final user = auth.currentUser;
+        if (user != null && user.onboardingCompleted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const DashboardScreen()),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => const ProfileSetupScreen()),
+          );
+        }
       }
     } catch (e) {
       if (mounted) {

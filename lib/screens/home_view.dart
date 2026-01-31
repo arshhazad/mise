@@ -240,7 +240,7 @@ class HomeView extends StatelessWidget {
   Widget _buildSwitchItem(AuthProvider auth, String label) {
     final isActive = auth.currentUser?.selectedAddressTag == label;
     return GestureDetector(
-      onTap: () => auth.updateUserAddress(label),
+      onTap: () => auth.updateAddressTag(label),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
