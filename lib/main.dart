@@ -12,10 +12,14 @@ import 'screens/profile_setup_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  await Supabase.initialize(
-    url: 'https://jpqlbwmhzpmexcrzrueb.supabase.co',
-    anonKey: 'sb_publishable_puHLOw4stwgo__UEE3U3DQ_7CUVfU0J',
-  );
+  try {
+    await Supabase.initialize(
+      url: 'https://jpqlbwmhzpmexcrzrueb.supabase.co',
+      anonKey: 'sb_publishable_puHLOw4stwgo__UEE3U3DQ_7CUVfU0J',
+    );
+  } catch (e) {
+    debugPrint('Supabase initialization failed: $e');
+  }
 
   runApp(
     MultiProvider(
